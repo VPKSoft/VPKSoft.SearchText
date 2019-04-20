@@ -24,6 +24,8 @@ SOFTWARE.
 */
 #endregion
 
+using System;
+
 namespace VPKSoft.SearchText
 {
     /// <summary>
@@ -48,6 +50,43 @@ namespace VPKSoft.SearchText
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Determines whether the given value is a whole word in a string.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="value">The value to check for a whole word.</param>
+        /// <param name="startIndex">The start index of the substring.</param>
+        /// <param name="comparisonType">Type of the <see cref="StringComparison"/>.</param>
+        /// <returns><c>true</c> if the value is a whole word; otherwise, <c>false</c>.</returns>
+        public static bool IsWholeWord(this string str, string value, int startIndex,
+            StringComparison comparisonType)
+        {
+            bool result = false;
+            try
+            {
+                if (startIndex >= 0)
+                {
+                    int si = startIndex <= 0 ? 0 : startIndex - 1;
+                    int ei = startIndex + value.Length + 1 >= str.Length
+                        ? startIndex + value.Length
+                        : startIndex + value.Length + 1;
+
+                    string subString = str.Substring(si, ei);
+
+                    if (string.Compare(value, subString.Trim(), comparisonType) == 0)
+                    {
+                        result = true;
+                    }
+                }
+            }
+            catch
+            {
+                // ignored..
+            }
+
+            return result;
         }
     }
 }

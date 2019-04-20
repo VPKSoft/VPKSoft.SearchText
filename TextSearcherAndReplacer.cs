@@ -27,7 +27,6 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using PropertyChanged;
@@ -137,6 +136,13 @@ namespace VPKSoft.SearchText
         public bool IgnoreCase { get; set; }
 
         /// <summary>
+        /// Gets or sets a value whether to search should match only on whole words.
+        /// <note type="note">This doesn't apply for search modes of <c>SearchType.SimpleExtended</c> or the
+        /// <c>SearchType.RegularExpression</c>.</note>
+        /// </summary>
+        public bool WholeWord { get; set; } = false;
+
+        /// <summary>
         /// Gets or sets a file name to be reported with the <see cref="SearchProgress"/> event.
         /// </summary>
         [DoNotNotify]
@@ -156,7 +162,7 @@ namespace VPKSoft.SearchText
         /// <summary>
         /// A flag to indicate for the <see cref="ReplaceAll"/> and <see cref="FindAll"/> methods to to cancel their operation.
         /// </summary>
-        public volatile bool Cancelled = false;
+        public volatile bool Cancelled;
 
         /// <summary>
         /// Gets or set a value indicating whether the regular expression search is in multiline mode.
@@ -552,6 +558,16 @@ namespace VPKSoft.SearchText
             else // regular and extended searches are same cases, only the initialization differs..
             {
                 int index = SearchText.IndexOf(searchString, SearchStart, StringComparison);
+
+                if (WholeWord)
+                {
+                    if (SearchText.IsWholeWord(searchString, index, StringComparison))
+                    {
+                        SetSearchPosition(index);
+                        return Forward();
+                    }
+                }
+
                 if (index != -1)
                 {
                     SetSearchPosition(index);
@@ -632,6 +648,15 @@ namespace VPKSoft.SearchText
                 try
                 {
                     index = SearchText.LastIndexOf(searchString, SearchEnd, StringComparison);
+
+                    if (WholeWord)
+                    {
+                        if (SearchText.IsWholeWord(searchString, index, StringComparison))
+                        {
+                            SetSearchPosition(index);
+                            return Forward();
+                        }
+                    }
                 }
                 catch
                 {

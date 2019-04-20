@@ -10,7 +10,7 @@
     <iconUrl>https://www.vpksoft.net/site/VPKSoft.ico</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Added possibility to cancel the ReplaceAll and the FindAll method execution.</releaseNotes>
+    <releaseNotes>Added possibly working whole word detection.</releaseNotes>
     <copyright>Copyright © VPKSoft 2019</copyright>
     <tags>search text replace plain class library vpksoft</tags>
     <license type="expression">MIT</license>
