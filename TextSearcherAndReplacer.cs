@@ -608,12 +608,22 @@ namespace VPKSoft.SearchText
             }
             else // regular and extended searches are same cases, only the initialization differs..
             {
-                int index = SearchText.LastIndexOf(searchString, SearchEnd, StringComparison);
+                int index = -1;
+
+                try
+                {
+                    index = SearchText.LastIndexOf(searchString, SearchEnd, StringComparison);
+                }
+                catch
+                {
+                    // ignored..
+                }
+
                 if (index != -1)
                 {
                     SetSearchPosition(index);
                 }
-                else if (WrapAround && SearchText.LastIndexOf(searchString, SearchEnd, StringComparison) == -1)
+                else if (WrapAround && index == -1)
                 {
                     ResetSearch();
                     return Backward();
