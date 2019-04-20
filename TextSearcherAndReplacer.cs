@@ -27,6 +27,7 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using PropertyChanged;
@@ -134,6 +135,23 @@ namespace VPKSoft.SearchText
         /// Gets or sets a value indicating whether to ignore case in the search.
         /// </summary>
         public bool IgnoreCase { get; set; }
+
+        /// <summary>
+        /// Gets or sets a file name to be reported with the <see cref="SearchProgress"/> event.
+        /// </summary>
+        [DoNotNotify]
+        public string FileName { get; set; }
+
+        /// <summary>
+        /// Gets or set an object to be reported with the <see cref="SearchProgress"/> event.
+        /// </summary>
+        [DoNotNotify]
+        public object EventData { get; set; }
+
+        /// <summary>Gets or sets the object that contains data about the class.</summary>
+        /// <returns>An <see cref="T:System.Object" /> that contains data about the control. The default is <see langword="null" />.</returns>
+        [DoNotNotify]
+        public object Tag { get; set; }
 
         /// <summary>
         /// Gets or set a value indicating whether the regular expression search is in multiline mode.
@@ -312,7 +330,10 @@ namespace VPKSoft.SearchText
                 if (reportFrequency != 0 && (counter % reportFrequency) == 0)
                 {
                     SearchProgress?.Invoke(this,
-                        new TextSearcherEventArgs {Length = len, Position = searchResult.position});
+                        new TextSearcherEventArgs
+                        {
+                            Length = len, Position = searchResult.position, FileName = FileName, EventData = EventData
+                        });
                 }
 
                 // add the search result to the collection..
@@ -322,7 +343,7 @@ namespace VPKSoft.SearchText
 
             // raise the event is subscribed to report 100 %..
             SearchProgress?.Invoke(this,
-                new TextSearcherEventArgs {Length = len, Position = len});
+                new TextSearcherEventArgs {Length = len, Position = len, FileName = FileName, EventData = EventData});
 
             // return the result..
             return result;
@@ -358,7 +379,10 @@ namespace VPKSoft.SearchText
                 if (reportFrequency != 0 && (counter % reportFrequency) == 0)
                 {
                     SearchProgress?.Invoke(this,
-                        new TextSearcherEventArgs {Length = len, Position = searchResult.position});
+                        new TextSearcherEventArgs
+                        {
+                            Length = len, Position = searchResult.position, FileName = FileName, EventData = EventData
+                        });
                 }
 
                 counter++;
@@ -369,7 +393,7 @@ namespace VPKSoft.SearchText
 
             // raise the event is subscribed to report 100 %..
             SearchProgress?.Invoke(this,
-                new TextSearcherEventArgs {Length = len, Position = len});
+                new TextSearcherEventArgs {Length = len, Position = len, FileName = FileName, EventData = EventData});
 
             // set the flag that the next assignment to the SearchText is ignored..
             NoSearchTextReset = true;
