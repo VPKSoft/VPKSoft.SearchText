@@ -154,6 +154,11 @@ namespace VPKSoft.SearchText
         public object Tag { get; set; }
 
         /// <summary>
+        /// A flag to indicate for the <see cref="ReplaceAll"/> and <see cref="FindAll"/> methods to to cancel their operation.
+        /// </summary>
+        public volatile bool Cancelled = false;
+
+        /// <summary>
         /// Gets or set a value indicating whether the regular expression search is in multiline mode.
         /// </summary>
         public bool RegexMultiline { get; set; }
@@ -326,6 +331,13 @@ namespace VPKSoft.SearchText
             (int position, int length, string foundString) searchResult;
             while ((searchResult = Forward()) != Empty)
             {
+                // a possibly long operation is asked to cancel the execution..
+                if (Cancelled) 
+                {
+                    Cancelled = false; // set to false..
+                    break; // break the loop..
+                }
+
                 // raise the event is subscribed with the given frequency..
                 if (reportFrequency != 0 && (counter % reportFrequency) == 0)
                 {
@@ -375,6 +387,13 @@ namespace VPKSoft.SearchText
             // loop through the all matching occurrences..
             while ((searchResult = Forward()) != Empty)
             {
+                // a possibly long operation is asked to cancel the execution..
+                if (Cancelled) 
+                {
+                    Cancelled = false; // set to false..
+                    break; // break the loop..
+                }
+
                 // raise the event is subscribed with the given frequency..
                 if (reportFrequency != 0 && (counter % reportFrequency) == 0)
                 {
