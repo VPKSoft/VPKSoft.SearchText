@@ -63,19 +63,42 @@ namespace VPKSoft.SearchText
         public static bool IsWholeWord(this string str, string value, int startIndex,
             StringComparison comparisonType)
         {
+            // out of boundaries, so just return..
+            if (startIndex < 0 || startIndex + value.Length > str.Length)
+            {
+                return false;
+            }
+
             bool result = false;
-            try
+
+            try // just in case try..
             {
                 if (startIndex >= 0)
                 {
-                    int si = startIndex <= 0 ? 0 : startIndex - 1;
-                    int ei = startIndex + value.Length + 1 >= str.Length
-                        ? startIndex + value.Length
-                        : startIndex + value.Length + 1;
+                    // set the start index..
+                    int si = startIndex <= 0 ? 0 : startIndex - 1; 
 
-                    string subString = str.Substring(si, ei);
+                    // set the end index base value..
+                    int ei = startIndex + value.Length > str.Length ? startIndex : value.Length;
 
-                    if (string.Compare(value, subString.Trim(), comparisonType) == 0)
+                    // try to increase the end index by two..
+                    ei = ei + value.Length + 1 > str.Length ? ei : ei + 1;
+                    ei = ei + value.Length + 1 > str.Length ? ei : ei + 1;
+
+                    // set the start index v.2..
+                    int si2 = startIndex <= 0 ? 0 : startIndex;
+
+                    // set the end index v.2..
+                    int ei2 = startIndex + value.Length > str.Length ? startIndex : value.Length;
+
+                    // get the substring one for comparison..
+                    string subString1 = str.Substring(si, ei);
+
+                    // get the substring two for comparison..
+                    string subString2 = str.Substring(si2, ei2);
+
+                    // compare the sub strings..
+                    if (string.Compare(subString1.Trim(), subString2.Trim(), comparisonType) == 0)
                     {
                         result = true;
                     }
@@ -86,6 +109,7 @@ namespace VPKSoft.SearchText
                 // ignored..
             }
 
+            // return the result..
             return result;
         }
     }

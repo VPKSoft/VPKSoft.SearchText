@@ -559,16 +559,11 @@ namespace VPKSoft.SearchText
             {
                 int index = SearchText.IndexOf(searchString, SearchStart, StringComparison);
 
-                if (WholeWord)
+                if (index != -1 && WholeWord && SearchText.IsWholeWord(searchString, index, StringComparison))
                 {
-                    if (SearchText.IsWholeWord(searchString, index, StringComparison))
-                    {
-                        SetSearchPosition(index);
-                        return Forward();
-                    }
-                }
-
-                if (index != -1)
+                    SetSearchPosition(index);
+                } 
+                else if (index != -1)
                 {
                     SetSearchPosition(index);
                 }
@@ -648,22 +643,17 @@ namespace VPKSoft.SearchText
                 try
                 {
                     index = SearchText.LastIndexOf(searchString, SearchEnd, StringComparison);
-
-                    if (WholeWord)
-                    {
-                        if (SearchText.IsWholeWord(searchString, index, StringComparison))
-                        {
-                            SetSearchPosition(index);
-                            return Forward();
-                        }
-                    }
                 }
                 catch
                 {
                     // ignored..
                 }
 
-                if (index != -1)
+                if (index != -1 && WholeWord && SearchText.IsWholeWord(searchString, index, StringComparison))
+                {
+                    SetSearchPosition(index);
+                }
+                else if (index != -1)
                 {
                     SetSearchPosition(index);
                 }
