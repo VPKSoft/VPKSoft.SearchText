@@ -19,13 +19,12 @@ namespace TestApp
             InitializeComponent();
         }
 
+        TextSearcherAndReplacer searcher = null;
+
+
         private void BtWholeWord_Click(object sender, EventArgs e)
         {
-            TextSearcherAndReplacer searcher = new TextSearcherAndReplacer(tbMain.Text, tbSearchString.Text, TextSearcherEnums.SearchType.Normal);
-            searcher.WholeWord = true;
-            var value = searcher.Forward();
-            tbMain.SelectionStart = value.position;
-            tbMain.SelectionLength = value.length;
+
         }
 
         private void MnuOpen_Click(object sender, EventArgs e)
@@ -33,6 +32,35 @@ namespace TestApp
             if (odAnyFile.ShowDialog() == DialogResult.OK)
             {
                 tbMain.Text = File.ReadAllText(odAnyFile.FileName);
+            }
+        }
+
+        private void TbMain_TextChanged(object sender, EventArgs e)
+        {
+            searcher = new TextSearcherAndReplacer(tbMain.Text, tbSearchString.Text, TextSearcherEnums.SearchType.Normal);
+            searcher.WrapAround = true;
+            searcher.WholeWord = true;
+        }
+
+        private void BtWholeWordBackward_Click(object sender, EventArgs e)
+        {
+            var value = searcher.Backward();
+            if (value != TextSearcherAndReplacer.Empty)
+            {
+                tbMain.SelectionStart = value.position;
+                tbMain.SelectionLength = value.length;
+                tbMain.ScrollToCaret();
+            }
+        }
+
+        private void BtWholeWordForward_Click(object sender, EventArgs e)
+        {
+            var value = searcher.Forward();
+            if (value != TextSearcherAndReplacer.Empty)
+            {
+                tbMain.SelectionStart = value.position;
+                tbMain.SelectionLength = value.length;
+                tbMain.ScrollToCaret();
             }
         }
     }

@@ -567,8 +567,8 @@ namespace VPKSoft.SearchText
                 {
                     SetSearchPosition(index);
                 }
-                else if (WrapAround && SearchText.IndexOf(searchString, 0, StringComparison) != -1 && WholeWord &&
-                         SearchText.IsWholeWord(searchString, 0, StringComparison))
+                else if (WholeWord && WrapAround &&
+                         SearchText.IsWholeWord(searchString, SearchText.IndexOf(searchString, 0, StringComparison), StringComparison))
                 {
                     ResetSearch();
                     return Forward();
@@ -663,11 +663,11 @@ namespace VPKSoft.SearchText
                 {
                     SetSearchPosition(index);
                 }
-                else if (WrapAround && SearchText.IndexOf(searchString, 0, StringComparison) != -1 && WholeWord &&
-                         SearchText.IsWholeWord(searchString, 0, StringComparison))
+                else if (WholeWord && WrapAround &&
+                         SearchText.IsWholeWord(searchString, SearchText.IndexOf(searchString, 0, StringComparison), StringComparison))
                 {
                     ResetSearch();
-                    return Forward();
+                    return Backward();
                 }
                 else if (WrapAround && index == -1 && !WholeWord)
                 {
