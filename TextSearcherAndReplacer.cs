@@ -563,11 +563,17 @@ namespace VPKSoft.SearchText
                 {
                     SetSearchPosition(index);
                 } 
-                else if (index != -1)
+                else if (index != -1 && !WholeWord)
                 {
                     SetSearchPosition(index);
                 }
-                else if (WrapAround && SearchText.IndexOf(searchString, 0, StringComparison) != -1)
+                else if (WrapAround && SearchText.IndexOf(searchString, 0, StringComparison) != -1 && WholeWord &&
+                         SearchText.IsWholeWord(searchString, 0, StringComparison))
+                {
+                    ResetSearch();
+                    return Forward();
+                }
+                else if (WrapAround && SearchText.IndexOf(searchString, 0, StringComparison) != -1 && !WholeWord)
                 {
                     ResetSearch();
                     return Forward();
@@ -653,11 +659,17 @@ namespace VPKSoft.SearchText
                 {
                     SetSearchPosition(index);
                 }
-                else if (index != -1)
+                else if (index != -1 && !WholeWord)
                 {
                     SetSearchPosition(index);
                 }
-                else if (WrapAround && index == -1)
+                else if (WrapAround && SearchText.IndexOf(searchString, 0, StringComparison) != -1 && WholeWord &&
+                         SearchText.IsWholeWord(searchString, 0, StringComparison))
+                {
+                    ResetSearch();
+                    return Forward();
+                }
+                else if (WrapAround && index == -1 && !WholeWord)
                 {
                     ResetSearch();
                     return Backward();
