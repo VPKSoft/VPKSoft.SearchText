@@ -26,6 +26,11 @@ namespace VPKSoft.SearchText
         public string FileName { get; set; }
 
         /// <summary>
+        /// Gets or sets the name of the file without the path to report with the SearchProgress event.
+        /// </summary>
+        public string FileNameNoPath { get; set; }
+
+        /// <summary>
         /// Gets or sets the object to be reported with the SearchProgress event.
         /// </summary>
         /// <value>The name of the file.</value>

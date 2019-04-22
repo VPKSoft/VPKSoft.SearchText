@@ -149,6 +149,12 @@ namespace VPKSoft.SearchText
         public string FileName { get; set; }
 
         /// <summary>
+        /// Gets or sets a file name without a path to be reported with the <see cref="SearchProgress"/> event.
+        /// </summary>
+        [DoNotNotify]
+        public string FileNameNoPath { get; set; }
+
+        /// <summary>
         /// Gets or set an object to be reported with the <see cref="SearchProgress"/> event.
         /// </summary>
         [DoNotNotify]
@@ -350,7 +356,8 @@ namespace VPKSoft.SearchText
                     SearchProgress?.Invoke(this,
                         new TextSearcherEventArgs
                         {
-                            Length = len, Position = searchResult.position, FileName = FileName, EventData = EventData
+                            Length = len, Position = searchResult.position, FileName = FileName, EventData = EventData,
+                            FileNameNoPath = FileNameNoPath
                         });
                 }
 
@@ -361,7 +368,11 @@ namespace VPKSoft.SearchText
 
             // raise the event is subscribed to report 100 %..
             SearchProgress?.Invoke(this,
-                new TextSearcherEventArgs {Length = len, Position = len, FileName = FileName, EventData = EventData});
+                new TextSearcherEventArgs
+                {
+                    Length = len, Position = len, FileName = FileName, EventData = EventData,
+                    FileNameNoPath = FileNameNoPath
+                });
 
             // return the result..
             return result;
@@ -406,7 +417,8 @@ namespace VPKSoft.SearchText
                     SearchProgress?.Invoke(this,
                         new TextSearcherEventArgs
                         {
-                            Length = len, Position = searchResult.position, FileName = FileName, EventData = EventData
+                            Length = len, Position = searchResult.position, FileName = FileName, EventData = EventData,
+                            FileNameNoPath = FileNameNoPath
                         });
                 }
 
@@ -418,7 +430,11 @@ namespace VPKSoft.SearchText
 
             // raise the event is subscribed to report 100 %..
             SearchProgress?.Invoke(this,
-                new TextSearcherEventArgs {Length = len, Position = len, FileName = FileName, EventData = EventData});
+                new TextSearcherEventArgs
+                {
+                    Length = len, Position = len, FileName = FileName, EventData = EventData,
+                    FileNameNoPath = FileNameNoPath
+                });
 
             // set the flag that the next assignment to the SearchText is ignored..
             NoSearchTextReset = true;

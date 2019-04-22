@@ -10,7 +10,7 @@
     <iconUrl>https://www.vpksoft.net/site/VPKSoft.ico</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Added replacement count to the result of the ReplaceAll method.</releaseNotes>
+    <releaseNotes>Added FileNameNoPath property to the TextSearcherEventArgs and to the TextSearcherAndReplacer class.</releaseNotes>
     <copyright>Copyright © VPKSoft 2019</copyright>
     <tags>search text replace plain class library vpksoft</tags>
     <license type="expression">MIT</license>
