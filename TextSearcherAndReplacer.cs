@@ -372,8 +372,8 @@ namespace VPKSoft.SearchText
         /// </summary>
         /// <param name="toReplaceWith">A string to replace the matches with.</param>
         /// <param name="reportFrequency">A value indicating the interval of how often to raise the <see cref="SearchProgress"/> event.</param>
-        /// <returns></returns>
-        public string ReplaceAll(string toReplaceWith, int reportFrequency)
+        /// <returns>The new text contents after the replace and the count of replacements made.</returns>
+        public (string newContents, int count) ReplaceAll(string toReplaceWith, int reportFrequency)
         {
             // reset the search as all occurrences are to be replaced..
             BackwardSearchEnabled = false; // disable the backward search..
@@ -443,8 +443,8 @@ namespace VPKSoft.SearchText
             SearchStart = 0;
             SearchEnd = SearchText.Length;
 
-            // return the new search text..
-            return SearchText;
+            // return the new search text and the count of replacements made..
+            return (SearchText, results.Count);
         }
 
         /// <summary>
