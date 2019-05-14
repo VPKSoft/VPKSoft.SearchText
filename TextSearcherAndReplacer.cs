@@ -168,7 +168,7 @@ namespace VPKSoft.SearchText
         /// <summary>
         /// A flag to indicate for the <see cref="ReplaceAll"/> and <see cref="FindAll"/> methods to to cancel their operation.
         /// </summary>
-        public volatile bool Cancelled;
+        public volatile bool Canceled;
 
         /// <summary>
         /// Gets or set a value indicating whether the regular expression search is in multiline mode.
@@ -344,9 +344,9 @@ namespace VPKSoft.SearchText
             while ((searchResult = Forward()) != Empty)
             {
                 // a possibly long operation is asked to cancel the execution..
-                if (Cancelled) 
+                if (Canceled) 
                 {
-                    Cancelled = false; // set to false..
+                    Canceled = false; // set to false..
                     break; // break the loop..
                 }
 
@@ -405,9 +405,9 @@ namespace VPKSoft.SearchText
             while ((searchResult = Forward()) != Empty)
             {
                 // a possibly long operation is asked to cancel the execution..
-                if (Cancelled) 
+                if (Canceled) 
                 {
-                    Cancelled = false; // set to false..
+                    Canceled = false; // set to false..
                     break; // break the loop..
                 }
 
