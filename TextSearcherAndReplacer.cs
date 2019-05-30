@@ -503,6 +503,7 @@ namespace VPKSoft.SearchText
             return Empty;
         }
 
+        private bool indexOutOfRangeOverflow = false;
 
         /// <summary>
         /// Gets the next forward match from the <see cref="SearchText"/> with a given <see cref="SearchString"/>.
@@ -573,6 +574,24 @@ namespace VPKSoft.SearchText
             }
             else // regular and extended searches are same cases, only the initialization differs..
             {
+                if (SearchStart >= searchString.Length) // avoid an exception..
+                {
+                    if (WrapAround && !indexOutOfRangeOverflow)
+                    {
+                        indexOutOfRangeOverflow = true;
+                        ResetSearch();
+                        return Forward();
+                    }
+                    else
+                    {
+                        PreviousFinding = Empty;
+                        return PreviousFinding;
+                    }
+                }
+
+                indexOutOfRangeOverflow = false;
+
+
                 int index = SearchText.IndexOf(searchString, SearchStart, StringComparison);
 
                 if (index != -1 && WholeWord && SearchText.IsWholeWord(searchString, index, StringComparison))
