@@ -39,7 +39,7 @@ namespace TestApp
         {
             searcher = new TextSearcherAndReplacer(tbMain.Text, tbSearchString.Text, TextSearcherEnums.SearchType.Normal);
             searcher.WrapAround = true;
-            searcher.WholeWord = true;
+            searcher.WholeWord = false;
         }
 
         private void BtWholeWordBackward_Click(object sender, EventArgs e)

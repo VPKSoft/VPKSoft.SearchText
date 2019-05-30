@@ -10,7 +10,7 @@
     <iconUrl>https://www.vpksoft.net/site/VPKSoft.ico</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Hopefully fixed index out of range exception in the Forward() method.</releaseNotes>
+    <releaseNotes>Fixed a possibility to stack overflow.</releaseNotes>
     <copyright>Copyright © VPKSoft 2019</copyright>
     <tags>search text replace plain class library vpksoft</tags>
     <license type="expression">MIT</license>

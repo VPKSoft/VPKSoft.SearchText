@@ -503,7 +503,16 @@ namespace VPKSoft.SearchText
             return Empty;
         }
 
-        private bool indexOutOfRangeOverflow = false;
+        private int backRecallCount = 0;
+        private int forwardRecallCount = 0;
+
+        private void DecTowardZero(ref int value)
+        {
+            if (value > 0)
+            {
+                value--;
+            }
+        }
 
         /// <summary>
         /// Gets the next forward match from the <see cref="SearchText"/> with a given <see cref="SearchString"/>.
@@ -562,9 +571,10 @@ namespace VPKSoft.SearchText
 
                     PreviousFinding = (match.Index, match.Length, match.Value);
                 }
-                else if (WrapAround && RegexMatches.Count > 0)
+                else if (WrapAround && RegexMatches.Count > 0 && forwardRecallCount == 0)
                 {
                     MatchIndex = 0;
+                    forwardRecallCount++;
                     return Forward();
                 }
                 else
@@ -574,25 +584,16 @@ namespace VPKSoft.SearchText
             }
             else // regular and extended searches are same cases, only the initialization differs..
             {
-                if (SearchStart >= searchString.Length) // avoid an exception..
+                int index = -1;
+
+                try
                 {
-                    if (WrapAround && !indexOutOfRangeOverflow)
-                    {
-                        indexOutOfRangeOverflow = true;
-                        ResetSearch();
-                        return Forward();
-                    }
-                    else
-                    {
-                        PreviousFinding = Empty;
-                        return PreviousFinding;
-                    }
+                    index = SearchText.IndexOf(searchString, SearchStart, StringComparison);
                 }
-
-                indexOutOfRangeOverflow = false;
-
-
-                int index = SearchText.IndexOf(searchString, SearchStart, StringComparison);
+                catch
+                {
+                    // ignored..
+                }
 
                 if (index != -1 && WholeWord && SearchText.IsWholeWord(searchString, index, StringComparison))
                 {
@@ -603,14 +604,17 @@ namespace VPKSoft.SearchText
                     SetSearchPosition(index);
                 }
                 else if (WholeWord && WrapAround &&
-                         SearchText.IsWholeWord(searchString, SearchText.IndexOf(searchString, 0, StringComparison), StringComparison))
+                         SearchText.IsWholeWord(searchString, SearchText.IndexOf(searchString, 0, StringComparison),
+                             StringComparison) && forwardRecallCount == 0)
                 {
                     ResetSearch();
+                    forwardRecallCount++;
                     return Forward();
                 }
                 else if (WrapAround && SearchText.IndexOf(searchString, 0, StringComparison) != -1 && !WholeWord)
                 {
                     ResetSearch();
+                    forwardRecallCount++;
                     return Forward();
                 }
                 else
@@ -619,6 +623,7 @@ namespace VPKSoft.SearchText
                 }
             }
 
+            DecTowardZero(ref forwardRecallCount);
             return PreviousFinding;
         }
 
@@ -643,6 +648,7 @@ namespace VPKSoft.SearchText
             // the backwards search isn't enabled so just return a "not found" value..
             if (!BackwardSearchEnabled)
             {
+                DecTowardZero(ref backRecallCount);
                 return Empty;
             }
 
@@ -667,8 +673,9 @@ namespace VPKSoft.SearchText
                     var match = RegexMatches[MatchIndex--];
                     SetSearchPosition(match.Index, match.Length);
                 }
-                else if (WrapAround && RegexMatches.Count > 0)
+                else if (WrapAround && RegexMatches.Count > 0 && backRecallCount == 0)
                 {
+                    backRecallCount++;
                     MatchIndex = RegexMatches.Count - 1;
                     return Backward();
                 }
@@ -699,18 +706,22 @@ namespace VPKSoft.SearchText
                     SetSearchPosition(index);
                 }
                 else if (WholeWord && WrapAround &&
-                         SearchText.IsWholeWord(searchString, SearchText.IndexOf(searchString, 0, StringComparison), StringComparison))
+                         SearchText.IsWholeWord(searchString, SearchText.IndexOf(searchString, 0, StringComparison),
+                             StringComparison) && backRecallCount == 0)
                 {
                     ResetSearch();
+                    backRecallCount++;
                     return Backward();
                 }
-                else if (WrapAround && index == -1 && !WholeWord)
+                else if (WrapAround && index == -1 && !WholeWord && backRecallCount == 0)
                 {
                     ResetSearch();
+                    backRecallCount++;
                     return Backward();
                 }
             }
 
+            DecTowardZero(ref backRecallCount);
             return PreviousFinding;
         }
 
@@ -723,6 +734,10 @@ namespace VPKSoft.SearchText
             SearchStart = 0; // reset the search area..
             SearchEnd = SearchText.Length - 1; // reset the search area..
             PreviousFinding = Empty; // set the previous found location to "empty"..
+
+            // reset the stack overflow counters..
+            backRecallCount = 0;
+            forwardRecallCount = 0;
 
             // if the backward search is enabled get all the regular expression matches..
             if ((SearchType == SearchType.RegularExpression || SearchType == SearchType.SimpleExtended) &&
