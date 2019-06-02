@@ -503,8 +503,8 @@ namespace VPKSoft.SearchText
             return Empty;
         }
 
-        private int backRecallCount = 0;
-        private int forwardRecallCount = 0;
+        private int backRecallCount;
+        private int forwardRecallCount;
 
         private void DecTowardZero(ref int value)
         {
@@ -525,7 +525,8 @@ namespace VPKSoft.SearchText
             {
                 if (index != -1)
                 {
-                    if (PreviousFinding == Empty) // don't continue from here..
+                    if (PreviousFinding == Empty &&
+                        (searchType == SearchType.RegularExpression || SearchType == SearchType.SimpleExtended))  // don't continue from here..
                     {
                         // ..because it will cause an endless loop (!)..
                         return;

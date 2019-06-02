@@ -37,7 +37,7 @@ namespace TestApp
 
         private void TbMain_TextChanged(object sender, EventArgs e)
         {
-            searcher = new TextSearcherAndReplacer(tbMain.Text, tbSearchString.Text, TextSearcherEnums.SearchType.SimpleExtended);
+            searcher = new TextSearcherAndReplacer(tbMain.Text, tbSearchString.Text, TextSearcherEnums.SearchType.Normal);
             searcher.WrapAround = true;
             searcher.WholeWord = false;
         }
