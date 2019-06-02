@@ -37,6 +37,7 @@
             this.mnuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.btWholeWordBackward = new System.Windows.Forms.Button();
+            this.btTestSomething = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -116,11 +117,22 @@
             this.btWholeWordBackward.UseVisualStyleBackColor = true;
             this.btWholeWordBackward.Click += new System.EventHandler(this.BtWholeWordBackward_Click);
             // 
+            // btTestSomething
+            // 
+            this.btTestSomething.Location = new System.Drawing.Point(389, 415);
+            this.btTestSomething.Name = "btTestSomething";
+            this.btTestSomething.Size = new System.Drawing.Size(129, 23);
+            this.btTestSomething.TabIndex = 5;
+            this.btTestSomething.Text = "Test something";
+            this.btTestSomething.UseVisualStyleBackColor = true;
+            this.btTestSomething.Click += new System.EventHandler(this.BtTestSomething_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btTestSomething);
             this.Controls.Add(this.btWholeWordBackward);
             this.Controls.Add(this.btWholeWordForward);
             this.Controls.Add(this.tbSearchString);
@@ -147,6 +159,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuFile;
         private System.Windows.Forms.ToolStripMenuItem mnuOpen;
         private System.Windows.Forms.Button btWholeWordBackward;
+        private System.Windows.Forms.Button btTestSomething;
     }
 }
 

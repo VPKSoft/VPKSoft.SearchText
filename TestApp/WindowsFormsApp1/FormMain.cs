@@ -37,7 +37,7 @@ namespace TestApp
 
         private void TbMain_TextChanged(object sender, EventArgs e)
         {
-            searcher = new TextSearcherAndReplacer(tbMain.Text, tbSearchString.Text, TextSearcherEnums.SearchType.Normal);
+            searcher = new TextSearcherAndReplacer(tbMain.Text, tbSearchString.Text, TextSearcherEnums.SearchType.SimpleExtended);
             searcher.WrapAround = true;
             searcher.WholeWord = false;
         }
@@ -62,6 +62,11 @@ namespace TestApp
                 tbMain.SelectionLength = value.length;
                 tbMain.ScrollToCaret();
             }
+        }
+
+        private void BtTestSomething_Click(object sender, EventArgs e)
+        {
+            var result = searcher.FindAll(100);
         }
     }
 }

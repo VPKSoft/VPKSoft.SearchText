@@ -525,6 +525,11 @@ namespace VPKSoft.SearchText
             {
                 if (index != -1)
                 {
+                    if (PreviousFinding == Empty) // don't continue from here..
+                    {
+                        // ..because it will cause an endless loop (!)..
+                        return;
+                    }
                     SearchStart = index + 1;
                     PreviousFinding = (index, len == -1 ? searchString.Length : len,
                         SearchText.Substring(index, len == -1 ? searchString.Length : len));

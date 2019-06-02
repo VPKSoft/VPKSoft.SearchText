@@ -10,7 +10,7 @@
     <iconUrl>https://www.vpksoft.net/site/VPKSoft.ico</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Fixed a possibility to stack overflow.</releaseNotes>
+    <releaseNotes>Fixed out of memory caused by an endless loop.</releaseNotes>
     <copyright>Copyright © VPKSoft 2019</copyright>
     <tags>search text replace plain class library vpksoft</tags>
     <license type="expression">MIT</license>
