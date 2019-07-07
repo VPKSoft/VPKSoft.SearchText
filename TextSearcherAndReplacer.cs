@@ -230,18 +230,24 @@ namespace VPKSoft.SearchText
         private string searchString = string.Empty;
 
         /// <summary>
+        /// Gets the original search string if the assignment changed the contents of the search string in case of extended (i.e. Regexp) search.
+        /// </summary>
+        public string OriginalSearchString => originalSearchString;
+
+        /// <summary>
         /// Gets or sets the string to search for the <seealso cref="SearchText"/>.
         /// </summary>
         [DoNotNotify]
         public string SearchString
         {
-            get => searchString;
+            get => originalSearchString;
 
             set
             {
-                originalSearchString = value;
-                if (value != searchString)
+                if (originalSearchString != value)
                 {
+                    originalSearchString = value;
+
                     searchString = SearchType == SearchType.Extended
                         ?
                         // extended search requires the string to be unescaped..

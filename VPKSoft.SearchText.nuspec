@@ -10,7 +10,7 @@
     <iconUrl>https://www.vpksoft.net/site/VPKSoft.ico</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Fixed: The previous fix made the normal text search useless!</releaseNotes>
+    <releaseNotes>Added OriginalSearchString property. Fixed the SearchString property in case of extented search such as Regex.</releaseNotes>
     <copyright>Copyright © VPKSoft 2019</copyright>
     <tags>search text replace plain class library vpksoft</tags>
     <license type="expression">MIT</license>
