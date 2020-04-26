@@ -216,11 +216,13 @@ namespace VPKSoft.SearchText
         /// <summary>
         /// Gets or set the string comparison used with the search.
         /// </summary>
+        [DoNotNotify]
         public StringComparison StringComparison { get; set; } = StringComparison.InvariantCulture;
 
         /// <summary>
         /// Gets or set the <see cref="RegexOptions"/> enumeration. This is used when the <seealso cref="SearchType"/> is set to RegularExpression.
         /// </summary>
+        [DoNotNotify]
         public RegexOptions RegexOptions { get; set; } = RegexOptions.Compiled;
 
         // a value for the original search string in case the search style is changed..
@@ -232,6 +234,7 @@ namespace VPKSoft.SearchText
         /// <summary>
         /// Gets the original search string if the assignment changed the contents of the search string in case of extended (i.e. Regexp) search.
         /// </summary>
+        [DoNotNotify]
         public string OriginalSearchString => originalSearchString;
 
         /// <summary>
